@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  backend:
+    build: ./
+    command: npm start
+    working_dir: /usr/src/smart-brain-api
+    environment: 
+      POSTGRES_URI: postgres://hcc:hccisawesome@postgres:5432/smart-brain-learn
+      REDIS_URI: redis://redis:6379
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/smart-brain-api
+
+  postgres:
+    build: ./postgres
+    environment: 
+      POSTGRES_USER: hcc
+      POSTGRES_PASSWORD: hccisawesome
+      POSTGRES_URL: postgres://hcc:hccisawesome@postgres:5432/smart-brain-learn
+      POSTGRES_DB: smart-brain-learn
+      POSTGRES_HOST: postgres
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+      REDIS_DISABLE_COMMANDS: FLUSHDB,FLUSHALL
+    ports:
+      - "6379:6379"
+
