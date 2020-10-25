@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const knex = require('knex');
 const morgan = require('morgan');
+const compression = require('compression');
+
 
 const auth = require('./middleware/authorization');
 const register = require('./controllers/register');
@@ -28,8 +30,9 @@ const corsOptions = {
     }
   }
 }
-app.use(cors(corsOptions))
-app.use(morgan('combined'))
+app.use(cors(corsOptions));
+app.use(compression);
+app.use(morgan('combined'));
 app.use(bodyParser.json());
 
 app.get('/', (req, res)=> { res.send(db.users) })
